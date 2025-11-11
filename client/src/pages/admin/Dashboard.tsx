@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   Users,
-  TrendingUp
+  TrendingUp,
+  FileText
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -57,6 +58,7 @@ export default function AdminDashboard() {
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
     { icon: Mail, label: "Leads", path: "/admin/leads" },
+    { icon: FileText, label: "Blog Posts", path: "/admin/blog" },
   ];
 
   return (

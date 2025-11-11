@@ -7,6 +7,8 @@ import Home from "@/pages/Home";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminLeads from "@/pages/admin/Leads";
+import AdminBlogList from "@/pages/admin/BlogList";
+import AdminBlogEditor from "@/pages/admin/BlogEditor";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +18,9 @@ function Router() {
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/leads" component={AdminLeads} />
+      <Route path="/admin/blog" component={AdminBlogList} />
+      <Route path="/admin/blog/new" component={AdminBlogEditor} />
+      <Route path="/admin/blog/edit/:id" component={AdminBlogEditor} />
       <Route component={NotFound} />
     </Switch>
   );

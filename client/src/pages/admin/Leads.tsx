@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Menu, X, LogOut, LayoutDashboard, Mail, Eye, Trash2 } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, Mail, Eye, Trash2, FileText } from "lucide-react";
 import type { Lead } from "@shared/schema";
 
 export default function AdminLeads() {
@@ -199,6 +199,7 @@ export default function AdminLeads() {
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
     { icon: Mail, label: "Leads", path: "/admin/leads" },
+    { icon: FileText, label: "Blog Posts", path: "/admin/blog" },
   ];
 
   return (

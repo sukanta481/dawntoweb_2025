@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema } from "@shared/schema";
+import { insertLeadSchema, insertBlogPostSchema } from "@shared/schema";
 import * as bcrypt from "bcryptjs";
 
 // Middleware to check if user is authenticated
@@ -135,6 +135,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Delete lead error:", error);
       res.status(500).json({ message: "Failed to delete lead" });
+    }
+  });
+
+  // ========== BLOG POST ROUTES ==========
+
+  // Get all blog posts (admin can see unpublished)
+  app.get("/api/admin/blog-posts", requireAuth, async (req, res) => {
+    try {
+      const posts = await storage.getAllBlogPosts(true); // Include unpublished
+      res.json(posts);
+    } catch (error) {
+      console.error("Get blog posts error:", error);
+      res.status(500).json({ message: "Failed to fetch blog posts" });
+    }
+  });
+
+  // Get single blog post
+  app.get("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const post = await storage.getBlogPost(id);
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      res.json(post);
+    } catch (error) {
+      console.error("Get blog post error:", error);
+      res.status(500).json({ message: "Failed to fetch blog post" });
+    }
+  });
+
+  // Create blog post
+  app.post("/api/admin/blog-posts", requireAuth, async (req, res) => {
+    try {
+      const userId = (req.session as any).userId;
+      const postData = insertBlogPostSchema.parse({
+        ...req.body,
+        authorId: userId,
+      });
+
+      const post = await storage.insertBlogPost(postData);
+      res.json(post);
+    } catch (error: any) {
+      console.error("Create blog post error:", error);
+      res.status(400).json({ message: error.message || "Failed to create blog post" });
+    }
+  });
+
+  // Update blog post
+  app.patch("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updates = req.body;
+
+      const updatedPost = await storage.updateBlogPost(id, updates);
+      res.json(updatedPost);
+    } catch (error) {
+      console.error("Update blog post error:", error);
+      res.status(500).json({ message: "Failed to update blog post" });
+    }
+  });
+
+  // Delete blog post
+  app.delete("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteBlogPost(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Delete blog post error:", error);
+      res.status(500).json({ message: "Failed to delete blog post" });
     }
   });
 
