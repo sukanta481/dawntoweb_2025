@@ -205,7 +205,10 @@ export default function AdminBlogEditor() {
       >
         <div className="h-full flex flex-col">
           <div className="p-6 border-b">
-            <h2 className="text-2xl font-bold">DawnToWeb</h2>
+            <div className="flex items-center gap-3 mb-2">
+              <img src="/assets/images/logo.png" alt="DawnToWeb Logo" className="h-8 w-auto" />
+              <h2 className="text-2xl font-bold">DawnToWeb</h2>
+            </div>
             <p className="text-sm text-muted-foreground">Admin Panel</p>
           </div>
 

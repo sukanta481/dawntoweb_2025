@@ -67,10 +67,10 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-6">
       <Card className="w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-            <LogIn className="w-8 h-8 text-primary" />
+          <div className="inline-flex items-center justify-center mb-4">
+            <img src="/assets/images/logo.png" alt="DawnToWeb" className="h-16 w-auto" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Admin Login</h1>
+          <h1 className="text-3xl font-bold mb-2">DawnToWeb Admin</h1>
           <p className="text-muted-foreground">Sign in to access your dashboard</p>
         </div>
 
