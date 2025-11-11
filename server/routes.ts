@@ -15,6 +15,24 @@ function requireAuth(req: Request, res: Response, next: Function) {
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
+  // Auto-seed admin user in development if it doesn't exist
+  if (process.env.NODE_ENV !== "production") {
+    const existingAdmin = await storage.getUserByUsername("admin");
+    if (!existingAdmin) {
+      try {
+        const hashedPassword = await bcrypt.hash("admin123", 10);
+        await storage.createUser({
+          username: "admin",
+          email: "admin@dawntoweb.com",
+          password: hashedPassword,
+        });
+        console.log("✅ Auto-seeded admin user (username: admin, password: admin123)");
+      } catch (error) {
+        console.error("Failed to auto-seed admin user:", error);
+      }
+    }
+  }
+
   // ========== PUBLIC API ROUTES ==========
 
   // Contact form submission (saves lead to database)
@@ -30,6 +48,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // ========== ADMIN AUTH ROUTES ==========
+
+  // Development only: Seed database endpoint
+  if (process.env.NODE_ENV !== "production") {
+    app.post("/api/admin/seed", async (req, res) => {
+      try {
+        const hashedPassword = await bcrypt.hash("admin123", 10);
+        const adminUser = await storage.createUser({
+          username: "admin",
+          email: "admin@dawntoweb.com",
+          password: hashedPassword,
+        });
+        res.json({
+          success: true,
+          message: "Admin user created",
+          user: { username: adminUser.username, email: adminUser.email }
+        });
+      } catch (error: any) {
+        res.status(500).json({ message: error.message || "Seed failed" });
+      }
+    });
+  }
 
   // Admin login
   app.post("/api/admin/login", async (req, res) => {
