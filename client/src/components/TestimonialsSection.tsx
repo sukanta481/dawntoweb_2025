@@ -9,7 +9,7 @@ const testimonials = [
     name: "Jennifer Williams",
     role: "CEO, TechVenture Inc.",
     image: client1,
-    quote: "DigiMarket transformed our online presence completely. Within 6 months, we saw a 300% increase in qualified leads. Their team is professional, creative, and delivers real results.",
+    quote: "DawnToWeb transformed our online presence completely. Within 6 months, we saw a 300% increase in qualified leads. Their team is professional, creative, and delivers real results.",
   },
   {
     name: "Robert Anderson",
@@ -21,7 +21,7 @@ const testimonials = [
     name: "Lisa Chen",
     role: "Marketing Director, StartupHub",
     image: client3,
-    quote: "Working with DigiMarket has been a game-changer. Their strategic approach and attention to detail helped us stand out in a crowded market. Highly recommended!",
+    quote: "Working with DawnToWeb has been a game-changer. Their strategic approach and attention to detail helped us stand out in a crowded market. Highly recommended!",
   },
 ];
 

@@ -14,11 +14,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">D</span>
-              </div>
-              <span className="font-bold text-xl">DigiMarket</span>
+            <div className="flex items-center gap-3 mb-4">
+              <img
+                src="/assets/images/logo.png"
+                alt="DawnToWeb Logo"
+                className="h-10 w-auto"
+              />
+              <span className="font-bold text-xl">DawnToWeb</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
               Transforming brands through data-driven digital marketing strategies.
@@ -195,7 +197,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p data-testid="text-copyright">&copy; 2024 DigiMarket. All rights reserved.</p>
+          <p data-testid="text-copyright">&copy; 2024 DawnToWeb. All rights reserved.</p>
           <div className="flex gap-6">
             <button
               onClick={() => console.log("Privacy Policy clicked")}
