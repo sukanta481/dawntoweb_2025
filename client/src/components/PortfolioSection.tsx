@@ -10,44 +10,56 @@ import restaurantImg from "@assets/generated_images/Restaurant_website_portfolio
 
 const projects = [
   {
-    title: "E-Commerce Platform",
-    category: "Web Design",
+    title: "Client Website #1",
+    category: "Completed",
     image: ecommerceImg,
-    description: "Complete redesign and optimization resulting in 150% increase in conversions",
+    description: "Modern business website with responsive design and contact forms",
+    link: "https://example-client1.com", // Replace with your actual client URL
+    technologies: "React, Tailwind CSS, Node.js",
   },
   {
-    title: "Fitness App Design",
-    category: "Branding",
+    title: "Client Website #2",
+    category: "Completed",
     image: fitnessImg,
-    description: "Mobile-first UI/UX design with seamless user experience",
+    description: "Portfolio website with beautiful UI and smooth animations",
+    link: "https://example-client2.com", // Replace with your actual client URL
+    technologies: "React, TypeScript, Framer Motion",
   },
   {
-    title: "Corporate Branding",
-    category: "Branding",
-    image: brandingImg,
-    description: "Full brand identity development for Fortune 500 company",
-  },
-  {
-    title: "Social Campaign",
-    category: "Social Media",
-    image: socialMediaImg,
-    description: "Viral social media campaign reaching 2M+ impressions",
-  },
-  {
-    title: "SEO Success Story",
-    category: "SEO",
-    image: seoImg,
-    description: "Achieved top 3 rankings for competitive keywords in 6 months",
-  },
-  {
-    title: "Restaurant Website",
-    category: "Web Design",
+    title: "Demo: E-Commerce Store",
+    category: "Demo",
     image: restaurantImg,
-    description: "Modern website with online ordering system and reservations",
+    description: "Full-featured online store with shopping cart and checkout",
+    link: "#", // Replace with demo URL
+    technologies: "React, Stripe, Database",
+  },
+  {
+    title: "Demo: Restaurant Website",
+    category: "Demo",
+    image: brandingImg,
+    description: "Beautiful restaurant site with menu and reservation system",
+    link: "#", // Replace with demo URL
+    technologies: "React, Tailwind, Booking System",
+  },
+  {
+    title: "Demo: Agency Portfolio",
+    category: "Demo",
+    image: socialMediaImg,
+    description: "Creative agency portfolio with stunning animations",
+    link: "#", // Replace with demo URL
+    technologies: "React, GSAP, Parallax Effects",
+  },
+  {
+    title: "Demo: SaaS Landing Page",
+    category: "Demo",
+    image: seoImg,
+    description: "Modern SaaS landing page optimized for conversions",
+    link: "#", // Replace with demo URL
+    technologies: "React, Analytics, CRM Integration",
   },
 ];
 
-const categories = ["All", "Web Design", "Branding", "Social Media", "SEO"];
+const categories = ["All", "Completed", "Demo"];
 
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -61,9 +73,9 @@ export default function PortfolioSection() {
     <section id="portfolio" className="py-16 md:py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Portfolio</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Work</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real results from real clients. See how we've helped businesses achieve their digital goals.
+            Check out our completed client projects and explore demo websites available for purchase or customization.
           </p>
         </div>
 
@@ -103,9 +115,21 @@ export default function PortfolioSection() {
                 <Badge variant="secondary" className="mb-3" data-testid={`badge-category-${index}`}>
                   {project.category}
                 </Badge>
-                <h3 className="text-xl font-bold" data-testid={`text-project-title-${index}`}>
+                <h3 className="text-xl font-bold mb-2" data-testid={`text-project-title-${index}`}>
                   {project.title}
                 </h3>
+                <p className="text-sm text-muted-foreground mb-3">{project.technologies}</p>
+                {project.link && project.link !== "#" && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Live Site →
+                  </a>
+                )}
               </div>
             </Card>
           ))}

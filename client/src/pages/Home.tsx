@@ -3,8 +3,10 @@ import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
 import StatsSection from "@/components/StatsSection";
 import PortfolioSection from "@/components/PortfolioSection";
+import AIAgentsSection from "@/components/AIAgentsSection";
 import TeamSection from "@/components/TeamSection";
 import ToolsSection from "@/components/ToolsSection";
+import BlogSection from "@/components/BlogSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -18,8 +20,10 @@ export default function Home() {
         <ServicesSection />
         <StatsSection />
         <PortfolioSection />
-        <TeamSection />
+        <AIAgentsSection />
         <ToolsSection />
+        <BlogSection />
+        <TeamSection />
         <TestimonialsSection />
         <ContactSection />
       </main>

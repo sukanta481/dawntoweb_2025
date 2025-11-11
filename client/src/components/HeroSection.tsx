@@ -33,18 +33,18 @@ export default function HeroSection() {
         <div className="flex items-center justify-center gap-2 mb-6">
           <Badge variant="secondary" className="px-4 py-1" data-testid="badge-rating">
             <Star className="w-3 h-3 fill-yellow-500 text-yellow-500 mr-1" />
-            5.0 Rating from 200+ Clients
+            Growing Startup • Passionate Team
           </Badge>
         </div>
 
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 max-w-4xl mx-auto leading-tight">
-          Transform Your Brand with{" "}
-          <span className="text-primary">Digital Excellence</span>
+          Building Your Digital Future with{" "}
+          <span className="text-primary">AI & Web Solutions</span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Data-driven marketing strategies that deliver measurable results. We help businesses grow
-          their online presence and achieve their digital goals.
+          A fresh digital agency specializing in modern websites, AI agents, and smart marketing tools.
+          We're just getting started, but we're ready to help your business grow online.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -71,15 +71,15 @@ export default function HeroSection() {
         <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>500+ Projects Delivered</span>
+            <span>2 Websites Launched</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>98% Client Satisfaction</span>
+            <span>AI Agents Ready</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>Award-Winning Team</span>
+            <span>Affordable Pricing</span>
           </div>
         </div>
       </div>

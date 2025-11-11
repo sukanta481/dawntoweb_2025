@@ -1,37 +1,43 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Share2, TrendingUp, PenTool, Mail, Megaphone } from "lucide-react";
+import { Globe, Bot, Palette, Search, BarChart, Rocket } from "lucide-react";
 
 const services = [
   {
+    icon: Globe,
+    title: "Website Development",
+    description: "Modern, responsive websites built with the latest technologies. Perfect for small businesses and startups.",
+    price: "From $999",
+  },
+  {
+    icon: Bot,
+    title: "AI Agents & Automation",
+    description: "Smart AI solutions to automate your business processes, from customer support to lead generation.",
+    price: "From $149/mo",
+  },
+  {
+    icon: Palette,
+    title: "Web Design & UI/UX",
+    description: "Beautiful, user-friendly designs that convert visitors into customers. Affordable packages available.",
+    price: "From $499",
+  },
+  {
     icon: Search,
-    title: "SEO Optimization",
-    description: "Boost your search rankings with data-driven SEO strategies that drive organic traffic and increase visibility.",
+    title: "SEO & Online Visibility",
+    description: "Get found on Google with our beginner-friendly SEO services. We'll help you rank higher organically.",
+    price: "From $299/mo",
   },
   {
-    icon: Share2,
-    title: "Social Media Marketing",
-    description: "Build engaged communities and amplify your brand across all major social platforms with targeted campaigns.",
+    icon: BarChart,
+    title: "Digital Marketing Setup",
+    description: "Set up your social media, email marketing, and analytics. Perfect for businesses just getting started.",
+    price: "From $199",
   },
   {
-    icon: TrendingUp,
-    title: "PPC Advertising",
-    description: "Maximize ROI with strategic paid advertising campaigns across Google, Facebook, and other platforms.",
-  },
-  {
-    icon: PenTool,
-    title: "Content Marketing",
-    description: "Engage your audience with compelling content that tells your brand story and drives conversions.",
-  },
-  {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Nurture leads and retain customers with personalized email campaigns that deliver results.",
-  },
-  {
-    icon: Megaphone,
-    title: "Brand Strategy",
-    description: "Develop a powerful brand identity that resonates with your target audience and stands out from competitors.",
+    icon: Rocket,
+    title: "Website Hosting & Maintenance",
+    description: "Keep your website running smoothly with our affordable hosting and maintenance packages.",
+    price: "From $49/mo",
   },
 ];
 
@@ -40,9 +46,9 @@ export default function ServicesSection() {
     <section id="services" className="py-16 md:py-24 lg:py-32 bg-muted/30">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">What We Offer</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive digital marketing solutions tailored to your business needs
+            Affordable web solutions for growing businesses. Transparent pricing, no hidden fees.
           </p>
         </div>
 
@@ -59,17 +65,20 @@ export default function ServicesSection() {
               <h3 className="text-xl font-bold mb-3" data-testid={`text-service-title-${index}`}>
                 {service.title}
               </h3>
-              <p className="text-muted-foreground mb-4" data-testid={`text-service-description-${index}`}>
+              <p className="text-muted-foreground mb-4 text-sm" data-testid={`text-service-description-${index}`}>
                 {service.description}
               </p>
-              <Button
-                variant="ghost"
-                className="p-0 h-auto hover:bg-transparent"
-                data-testid={`button-learn-more-${index}`}
-                onClick={() => console.log(`Learn more about ${service.title}`)}
-              >
-                Learn More →
-              </Button>
+              <div className="mt-auto">
+                <p className="text-lg font-bold text-primary mb-3">{service.price}</p>
+                <Button
+                  variant="ghost"
+                  className="p-0 h-auto hover:bg-transparent"
+                  data-testid={`button-learn-more-${index}`}
+                  onClick={() => console.log(`Learn more about ${service.title}`)}
+                >
+                  Learn More →
+                </Button>
+              </div>
             </Card>
           ))}
         </div>

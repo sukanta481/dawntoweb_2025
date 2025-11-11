@@ -7,33 +7,31 @@ import client3 from "@assets/generated_images/Startup_founder_testimonial_photo_
 const testimonials = [
   {
     name: "Jennifer Williams",
-    role: "CEO, TechVenture Inc.",
+    role: "Small Business Owner",
     image: client1,
-    quote: "DawnToWeb transformed our online presence completely. Within 6 months, we saw a 300% increase in qualified leads. Their team is professional, creative, and delivers real results.",
+    quote: "DawnToWeb built my first website and I couldn't be happier! They were patient, affordable, and delivered exactly what I needed. Highly recommended for anyone just starting out!",
   },
   {
     name: "Robert Anderson",
-    role: "Founder, Anderson & Co.",
+    role: "Startup Founder",
     image: client2,
-    quote: "The ROI we've achieved through their PPC campaigns has exceeded all expectations. They're not just a vendor, they're a true partner in our growth strategy.",
+    quote: "As a new business, budget was tight. DawnToWeb gave me honest advice and built a beautiful website that helps me compete with bigger companies. Great value!",
   },
   {
     name: "Lisa Chen",
-    role: "Marketing Director, StartupHub",
+    role: "Freelancer",
     image: client3,
-    quote: "Working with DawnToWeb has been a game-changer. Their strategic approach and attention to detail helped us stand out in a crowded market. Highly recommended!",
+    quote: "I needed a portfolio website fast and affordable. DawnToWeb delivered in 2 weeks! They're perfect for small businesses and freelancers like me.",
   },
 ];
 
 const companyLogos = [
-  "TechVenture",
-  "Anderson & Co",
-  "StartupHub",
-  "GlobalCorp",
-  "InnovateLabs",
-  "FutureScale",
-  "NextGen",
-  "PrimeDigital",
+  "Local Bakery",
+  "Fitness Studio",
+  "Tech Startup",
+  "Creative Agency",
+  "Coffee Shop",
+  "Consulting Firm",
 ];
 
 export default function TestimonialsSection() {
@@ -78,7 +76,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="border-t pt-12">
-          <p className="text-center text-sm text-muted-foreground mb-8">Trusted by leading brands</p>
+          <p className="text-center text-sm text-muted-foreground mb-8">Trusted by small businesses and startups</p>
           <div className="flex flex-wrap items-center justify-center gap-8">
             {companyLogos.map((logo, index) => (
               <div

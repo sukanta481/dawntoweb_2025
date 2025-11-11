@@ -1,8 +1,8 @@
 const stats = [
-  { value: "500+", label: "Clients Served" },
-  { value: "1,200+", label: "Projects Completed" },
-  { value: "250%", label: "Average ROI" },
-  { value: "8+", label: "Years Experience" },
+  { value: "2", label: "Websites Delivered" },
+  { value: "5+", label: "AI Agents Ready" },
+  { value: "100%", label: "Client Satisfaction" },
+  { value: "2024", label: "Founded & Growing" },
 ];
 
 export default function StatsSection() {
