@@ -1,68 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import ecommerceImg from "@assets/generated_images/E-commerce_website_portfolio_project_d8f0875a.png";
-import fitnessImg from "@assets/generated_images/Fitness_app_portfolio_project_0616a1ef.png";
-import brandingImg from "@assets/generated_images/Branding_identity_portfolio_project_35974cef.png";
-import socialMediaImg from "@assets/generated_images/Social_media_campaign_project_e5ab0dff.png";
-import seoImg from "@assets/generated_images/SEO_analytics_portfolio_project_3b0b2d4b.png";
-import restaurantImg from "@assets/generated_images/Restaurant_website_portfolio_project_4665e491.png";
+import type { Project } from "@shared/schema";
 
-const projects = [
-  {
-    title: "Client Website #1",
-    category: "Completed",
-    image: ecommerceImg,
-    description: "Modern business website with responsive design and contact forms",
-    link: "https://example-client1.com", // Replace with your actual client URL
-    technologies: "React, Tailwind CSS, Node.js",
-  },
-  {
-    title: "Client Website #2",
-    category: "Completed",
-    image: fitnessImg,
-    description: "Portfolio website with beautiful UI and smooth animations",
-    link: "https://example-client2.com", // Replace with your actual client URL
-    technologies: "React, TypeScript, Framer Motion",
-  },
-  {
-    title: "Demo: E-Commerce Store",
-    category: "Demo",
-    image: restaurantImg,
-    description: "Full-featured online store with shopping cart and checkout",
-    link: "#", // Replace with demo URL
-    technologies: "React, Stripe, Database",
-  },
-  {
-    title: "Demo: Restaurant Website",
-    category: "Demo",
-    image: brandingImg,
-    description: "Beautiful restaurant site with menu and reservation system",
-    link: "#", // Replace with demo URL
-    technologies: "React, Tailwind, Booking System",
-  },
-  {
-    title: "Demo: Agency Portfolio",
-    category: "Demo",
-    image: socialMediaImg,
-    description: "Creative agency portfolio with stunning animations",
-    link: "#", // Replace with demo URL
-    technologies: "React, GSAP, Parallax Effects",
-  },
-  {
-    title: "Demo: SaaS Landing Page",
-    category: "Demo",
-    image: seoImg,
-    description: "Modern SaaS landing page optimized for conversions",
-    link: "#", // Replace with demo URL
-    technologies: "React, Analytics, CRM Integration",
-  },
-];
-
-const categories = ["All", "Completed", "Demo"];
+const categories = ["All", "Web Development", "E-commerce", "Mobile App", "AI Solution", "Digital Marketing"];
 
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch("/api/projects");
+      if (res.ok) {
+        const data = await res.json();
+        // Only show active projects to public
+        setProjects(data.filter((p: Project) => p.active));
+      }
+    } catch (error) {
+      console.error("Failed to fetch projects:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredProjects =
     activeCategory === "All"
@@ -93,47 +58,62 @@ export default function PortfolioSection() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <Card
-              key={index}
-              className="overflow-hidden group hover-elevate transition-all duration-300 cursor-pointer"
-              onClick={() => console.log(`View project: ${project.title}`)}
-              data-testid={`card-project-${index}`}
-            >
-              <div className="relative overflow-hidden aspect-[4/3]">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <p className="text-sm text-foreground">{project.description}</p>
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Loading projects...</p>
+          </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No projects available yet. Check back soon!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
+              <Card
+                key={project.id}
+                className="overflow-hidden group hover-elevate transition-all duration-300 cursor-pointer"
+                onClick={() => project.link && project.link !== "#" && window.open(project.link, "_blank")}
+                data-testid={`card-project-${index}`}
+              >
+                <div className="relative overflow-hidden aspect-[4/3]">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/95 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p className="text-sm text-foreground">{project.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="p-6">
-                <Badge variant="secondary" className="mb-3" data-testid={`badge-category-${index}`}>
-                  {project.category}
-                </Badge>
-                <h3 className="text-xl font-bold mb-2" data-testid={`text-project-title-${index}`}>
-                  {project.title}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-3">{project.technologies}</p>
-                {project.link && project.link !== "#" && (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:underline"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    View Live Site →
-                  </a>
-                )}
-              </div>
-            </Card>
-          ))}
-        </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Badge variant="secondary" data-testid={`badge-category-${index}`}>
+                      {project.category}
+                    </Badge>
+                    {project.featured && (
+                      <Badge variant="default">Featured</Badge>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2" data-testid={`text-project-title-${index}`}>
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">{project.technologies}</p>
+                  {project.link && project.link !== "#" && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      View Live Site →
+                    </a>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

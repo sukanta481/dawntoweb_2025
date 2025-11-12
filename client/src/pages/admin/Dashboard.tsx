@@ -59,6 +59,7 @@ export default function AdminDashboard() {
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
     { icon: Mail, label: "Leads", path: "/admin/leads" },
     { icon: FileText, label: "Blog Posts", path: "/admin/blog" },
+    { icon: FileText, label: "Content", path: "/admin/content" },
   ];
 
   return (

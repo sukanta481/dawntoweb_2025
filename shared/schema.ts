@@ -47,13 +47,15 @@ export const blogPosts = pgTable("blog_posts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
-  excerpt: text("excerpt").notNull(),
+  excerpt: text("excerpt"),
   content: text("content").notNull(),
-  category: text("category").notNull(),
-  image: text("image").notNull(),
-  author: text("author").notNull().default("DawnToWeb Team"),
-  published: boolean("published").notNull().default(false),
-  views: integer("views").notNull().default(0),
+  featuredImage: text("featured_image"),
+  category: text("category"),
+  tags: json("tags").$type<string[]>().default([]),
+  status: text("status").notNull().default("draft"), // draft, published
+  authorId: text("author_id").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   publishedAt: timestamp("published_at"),
@@ -90,6 +92,25 @@ export const leads = pgTable("leads", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// AI Agents table
+export const aiAgents = pgTable("ai_agents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  icon: text("icon").notNull(),
+  features: json("features").$type<string[]>().default([]),
+  price: text("price").notNull(),
+  priceType: text("price_type").notNull().default("monthly"), // monthly, one-time, custom
+  category: text("category").notNull(), // customer_service, sales, marketing, etc.
+  capabilities: text("capabilities"),
+  integrations: json("integrations").$type<string[]>().default([]),
+  order: integer("order").notNull().default(0),
+  featured: boolean("featured").notNull().default(false),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Site settings table
 export const siteSettings = pgTable("site_settings", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -117,13 +138,21 @@ export const insertProjectSchema = createInsertSchema(projects).omit({
   updatedAt: true,
 });
 
-export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  publishedAt: true,
-  views: true,
-});
+export const insertBlogPostSchema = createInsertSchema(blogPosts)
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    publishedAt: true,
+  })
+  .extend({
+    excerpt: z.string().optional(),
+    featuredImage: z.string().optional(),
+    category: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+  });
 
 export const insertTestimonialSchema = createInsertSchema(testimonials).omit({
   id: true,
@@ -136,12 +165,22 @@ export const insertLeadSchema = createInsertSchema(leads).omit({
   updatedAt: true,
 });
 
+export const insertAiAgentSchema = createInsertSchema(aiAgents).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type InsertProject = z.infer<typeof insertProjectSchema>;
+export type InsertAiAgent = z.infer<typeof insertAiAgentSchema>;
 export type User = typeof users.$inferSelect;
 export type Service = typeof services.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type Lead = typeof leads.$inferSelect;
+export type AiAgent = typeof aiAgents.$inferSelect;
 export type SiteSetting = typeof siteSettings.$inferSelect;

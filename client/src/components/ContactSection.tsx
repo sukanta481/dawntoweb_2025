@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,34 @@ export default function ContactSection() {
     service: "",
     message: "",
   });
+
+  const [contactInfo, setContactInfo] = useState({
+    email: "hello@dawntoweb.com",
+    phone: "+91 94332 15443",
+    address: "22/h/304 bagmari road, Kolkata - 700054",
+  });
+
+  useEffect(() => {
+    fetchContactInfo();
+  }, []);
+
+  const fetchContactInfo = async () => {
+    try {
+      const res = await fetch("/api/settings");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.contactInfo) {
+          setContactInfo({
+            email: data.contactInfo.email || contactInfo.email,
+            phone: data.contactInfo.phone || contactInfo.phone,
+            address: data.contactInfo.address || contactInfo.address,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch contact info:", error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,11 +182,11 @@ export default function ContactSection() {
                   <div>
                     <div className="font-semibold mb-1">Email</div>
                     <a
-                      href="mailto:hello@digimarket.com"
+                      href={`mailto:${contactInfo.email}`}
                       className="text-muted-foreground hover:text-foreground transition-colors"
                       data-testid="link-email"
                     >
-                      hello@digimarket.com
+                      {contactInfo.email}
                     </a>
                   </div>
                 </div>
@@ -169,11 +197,11 @@ export default function ContactSection() {
                   <div>
                     <div className="font-semibold mb-1">Phone</div>
                     <a
-                      href="tel:+15551234567"
+                      href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
                       className="text-muted-foreground hover:text-foreground transition-colors"
                       data-testid="link-phone"
                     >
-                      +1 (555) 123-4567
+                      {contactInfo.phone}
                     </a>
                   </div>
                 </div>
@@ -184,8 +212,11 @@ export default function ContactSection() {
                   <div>
                     <div className="font-semibold mb-1">Office</div>
                     <p className="text-muted-foreground" data-testid="text-address">
-                      123 Marketing Street<br />
-                      San Francisco, CA 94102
+                      {contactInfo.address.split(',').map((line, i) => (
+                        <span key={i}>
+                          {line.trim()}{i < contactInfo.address.split(',').length - 1 && <br />}
+                        </span>
+                      ))}
                     </p>
                   </div>
                 </div>
