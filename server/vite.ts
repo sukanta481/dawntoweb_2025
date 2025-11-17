@@ -1,12 +1,8 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteServer, createLogger } from "vite";
+import { fileURLToPath } from "url";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
-import { nanoid } from "nanoid";
-
-const viteLogger = createLogger();
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -20,6 +16,13 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: Server) {
+  // Dynamically import vite and related dependencies only in development
+  const { createServer: createViteServer, createLogger } = await import("vite");
+  const { default: viteConfig } = await import("../vite.config.js");
+  const { nanoid } = await import("nanoid");
+
+  const viteLogger = createLogger();
+
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
@@ -45,8 +48,9 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
+      const currentDir = path.dirname(fileURLToPath(import.meta.url));
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        currentDir,
         "..",
         "client",
         "index.html",
@@ -68,18 +72,55 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  // In Docker/Cloud Run: working dir is /app, we run "node dist/index.js"
+  // So dist/public is at /app/dist/public
+  // When running locally from project root: dist/public
 
-  if (!fs.existsSync(distPath)) {
+  // Strategy: Try multiple paths to find the public directory
+  let distPath: string | undefined;
+
+  // Path 1: Relative to the script location (works when bundled)
+  try {
+    const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+    const candidatePath = path.resolve(scriptDir, "public");
+    if (fs.existsSync(candidatePath)) {
+      distPath = candidatePath;
+    }
+  } catch (e) {
+    // import.meta.url might fail in some environments
+  }
+
+  // Path 2: Relative to cwd (works in Docker when running from /app)
+  if (!distPath) {
+    const candidatePath = path.resolve(process.cwd(), "dist", "public");
+    if (fs.existsSync(candidatePath)) {
+      distPath = candidatePath;
+    }
+  }
+
+  // Path 3: Direct path assuming we're already in dist directory
+  if (!distPath) {
+    const candidatePath = path.resolve(process.cwd(), "public");
+    if (fs.existsSync(candidatePath)) {
+      distPath = candidatePath;
+    }
+  }
+
+  if (!distPath) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      `Could not find the build directory. Tried:\n` +
+      `  - ${path.resolve(process.cwd(), "dist", "public")}\n` +
+      `  - ${path.resolve(process.cwd(), "public")}\n` +
+      `Make sure to build the client first with 'npm run build'`,
     );
   }
+
+  console.log(`[serveStatic] Serving static files from: ${distPath}`);
 
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    res.sendFile(path.resolve(distPath!, "index.html"));
   });
 }
